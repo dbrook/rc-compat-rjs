@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  margin: 10px;
+  width: 500px;
 }
 
 .antToggle {
@@ -8,12 +10,49 @@
 }
 
 .antToggle:active {
-  padding: 5px;
-  border: 2px solid black;
   color: black;
+}
+
+.antToggle:disabled {
+  border-color: gray;
 }
 
 .toggle-field {
   display: grid;
   gap: 2px;
+  grid-template-columns: repeat(9, 1fr);
+}
+
+.extra-parameters {
+  border: 2px solid black;
+  margin-top: 5px;
+  display: grid;
+  gap: 2px;
+  padding: 5px;
+  /* grid-template-columns: 3fr 2fr; */
+}
+
+.rh-selector {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.unit-multi {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.multi-input {
+  font-size: 1.2em;
+  text-align: center;
+  width: 3em;
+}
+
+.output-zone {
+  border: 2px solid black;
+  padding: 5px;
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 1.5em;
+  background-color: cyan;
 }
