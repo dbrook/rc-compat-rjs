@@ -18,41 +18,52 @@
 }
 
 .toggle-field {
+  border: 2px solid black;
+  padding: 5px;
   display: grid;
   gap: 2px;
   grid-template-columns: repeat(9, 1fr);
-}
-
-.extra-parameters {
-  border: 2px solid black;
-  margin-top: 5px;
-  display: grid;
-  gap: 2px;
-  padding: 5px;
-  /* grid-template-columns: 3fr 2fr; */
+  background-color: lightgray;
+  margin-bottom: 5px;
 }
 
 .rh-selector {
-  grid-column: 1;
-  grid-row: 1;
+  border: 2px solid black;
+  padding: 5px;
+  background-color: lightgray;
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .unit-multi {
-  grid-column: 2;
+  border: 2px solid black;
+  padding: 5px;
+  background-color: lightgray;
+  display: grid;
+  gap: 2px;
+  align-items: center;
+  margin-bottom: 5px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.multi-label {
   grid-row: 1;
+  grid-column: 1;
 }
 
 .multi-input {
   font-size: 1.2em;
   text-align: center;
-  width: 3em;
+  grid-row: 1;
+  grid-column: 2 / 4;
 }
 
 .output-zone {
   border: 2px solid black;
   padding: 5px;
-  margin-top: 5px;
   font-weight: bold;
-  font-size: 1.5em;
   background-color: cyan;
 }

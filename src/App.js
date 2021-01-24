@@ -59,6 +59,7 @@ class AntigenToggle extends React.Component {
       gridColumn: this.props.col,
       gridRow: this.props.row,
       backgroundColor: this.props.enabled ? "orange" : "white",
+      fontWeight: this.props.enabled ? "bold" : "normal",
     };
     return (
       <button className="antToggle" style={gridStyle} onClick={this.props.onClick}>
@@ -90,30 +91,37 @@ class ToggleField extends React.Component {
 
 class RhesusSelector extends React.Component {
   render() {
-    var posStyle = {
-      backgroundColor: this.props.rhNeeded ? (this.props.rhFac > 0 ? "lime" : "white") : "lightgray",
+    var labelStyle = {
       gridColumn: 1,
       gridRow: 0,
     };
-    var negStyle = {
-      backgroundColor: this.props.rhNeeded ? (this.props.rhFac < 0 ? "lime" : "white") : "lightgray",
+    var posStyle = {
+      backgroundColor: this.props.rhNeeded ? (this.props.rhFac > 0 ? "lime" : "white") : "lightgray",
       gridColumn: 2,
       gridRow: 0,
+      fontWeight: this.props.rhFac > 0 ? "bold" : "normal",
+    };
+    var negStyle = {
+      backgroundColor: this.props.rhNeeded ? (this.props.rhFac < 0 ? "lime" : "white") : "lightgray",
+      gridColumn: 3,
+      gridRow: 0,
+      fontWeight: this.props.rhFac < 0 ? "bold" : "normal",
     };
     return (
-      <div className="rh-selector">Rhesus Factor:&nbsp;
-          <button
-            className="antToggle"
-            style={posStyle}
-            disabled={!this.props.rhNeeded}
-            onClick={() => this.props.onClick( 1)}
-          >Positive</button>
-          <button
-            className="antToggle"
-            style={negStyle}
-            disabled={!this.props.rhNeeded}
-            onClick={() => this.props.onClick(-1)}
-          >Negative</button>
+      <div className="rh-selector">
+        <div style={labelStyle}>Rhesus Factor</div>
+        <button
+          className="antToggle"
+          style={posStyle}
+          disabled={!this.props.rhNeeded}
+          onClick={() => this.props.onClick( 1)}
+        >Positive</button>
+        <button
+          className="antToggle"
+          style={negStyle}
+          disabled={!this.props.rhNeeded}
+          onClick={() => this.props.onClick(-1)}
+        >Negative</button>
       </div>
     );
   }
@@ -123,15 +131,14 @@ class UnitMultiplier extends React.Component {
   render() {
     return (
       <div className="unit-multi">
-        <label>Desired units:&nbsp;
-          <input
-            type="number"
-            min="1"
-            className="multi-input"
-            value={this.props.nbUnitsDesired}
-            onChange={this.props.onChange}
-          />
-        </label>
+        <div className="multi-label">Desired units</div>
+        <input
+          type="number"
+          min="1"
+          className="multi-input"
+          value={this.props.nbUnitsDesired}
+          onChange={this.props.onChange}
+        />
       </div>
     );
   }
@@ -215,17 +222,15 @@ class Calculator extends React.Component {
           toggles={this.state.antigenSet}
           onClick={(antig) => this.handleAntigenSelect(antig)}
         />
-        <div className="extra-parameters">
-          <RhesusSelector
-            rhFac={this.state.rhesusFac}
-            rhNeeded={this.state.rhesusReq}
-            onClick={(fac) => this.handleRhChange(fac)}
-          />
-          <UnitMultiplier
-            nbUnitsDesired={this.state.desiredUnits}
-            onChange={(event) => this.handleMultiplierChange(event)}
-          />
-        </div>
+        <RhesusSelector
+          rhFac={this.state.rhesusFac}
+          rhNeeded={this.state.rhesusReq}
+          onClick={(fac) => this.handleRhChange(fac)}
+        />
+        <UnitMultiplier
+          nbUnitsDesired={this.state.desiredUnits}
+          onChange={(event) => this.handleMultiplierChange(event)}
+        />
       <OutputZone
         outputText={this.state.resultOutput}
       />
