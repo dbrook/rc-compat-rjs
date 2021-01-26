@@ -214,17 +214,15 @@ class Calculator extends React.Component {
           toggles={this.state.antigenSet}
           onClick={(antig) => this.handleAntigenSelect(antig)}
         />
-        <div className="extra-params">
-          <RhesusSelector
-            rhFac={this.state.rhesusFac}
-            rhNeeded={this.state.rhesusReq}
-            onClick={(fac) => this.handleRhChange(fac)}
-          />
-          <UnitMultiplier
-            nbUnitsDesired={this.state.desiredUnits}
-            onChange={(event) => this.handleMultiplierChange(event)}
-          />
-        </div>
+        <RhesusSelector
+          rhFac={this.state.rhesusFac}
+          rhNeeded={this.state.rhesusReq}
+          onClick={(fac) => this.handleRhChange(fac)}
+        />
+        <UnitMultiplier
+          nbUnitsDesired={this.state.desiredUnits}
+          onChange={(event) => this.handleMultiplierChange(event)}
+        />
         <OutputZone
           outputText={this.state.resultOutput}
         />
