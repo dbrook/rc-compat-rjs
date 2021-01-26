@@ -1,69 +1,27 @@
+html {
+  background-color: lightgray;
+}
+
 .App {
   text-align: center;
-  margin: 10px;
-  width: 500px;
 }
 
-.antToggle {
-  padding: 5px;
-  border: 2px solid black;
+.App-header {
+  background-color: darkred;
+/*   height: 40px; */
+  padding: 10px;
+  margin-bottom: 15px;
+  color: white;
+  box-shadow: 0px 3px 2px gray;
 }
 
-.antToggle:active {
-  color: black;
+.App-header h1 {
+  font-size: 14pt;
+  padding: 0;
+  margin: 0;
 }
 
-.antToggle:disabled {
-  border-color: gray;
-}
-
-.toggle-field {
-  border: 2px solid black;
-  padding: 5px;
+.extra-params{
   display: grid;
-  gap: 2px;
-  grid-template-columns: repeat(9, 1fr);
-  background-color: lightgray;
-  margin-bottom: 5px;
-}
-
-.rh-selector {
-  border: 2px solid black;
-  padding: 5px;
-  background-color: lightgray;
-  display: grid;
-  gap: 2px;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.unit-multi {
-  border: 2px solid black;
-  padding: 5px;
-  background-color: lightgray;
-  display: grid;
-  gap: 2px;
-  align-items: center;
-  margin-bottom: 5px;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.multi-label {
-  grid-row: 1;
-  grid-column: 1;
-}
-
-.multi-input {
-  font-size: 1.2em;
-  text-align: center;
-  grid-row: 1;
-  grid-column: 2 / 4;
-}
-
-.output-zone {
-  border: 2px solid black;
-  padding: 5px;
-  font-weight: bold;
-  background-color: cyan;
+  grid-template-columns: 1fr 1fr;
 }

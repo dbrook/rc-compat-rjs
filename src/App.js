@@ -1,6 +1,19 @@
 import React from 'react';
 import './App.css';
 
+// PrimeReact Widget Import
+import {Panel} from 'primereact/panel';
+import {Card} from 'primereact/card';
+import {ToggleButton} from 'primereact/togglebutton';
+import {SelectButton} from 'primereact/selectbutton';
+import {InputNumber} from 'primereact/inputnumber';
+
+// PrimeReact Theme Import
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+
 const antigenStats = {
   "C":   {row:1, col:1, rhReq:true,  rhPosRat:0.17,   rhNegRat:0.97},
   "c":   {row:1, col:2, rhReq:true,  rhPosRat:0.19,   rhNegRat:0.0002},
@@ -20,6 +33,11 @@ const antigenStats = {
   "Jkb": {row:2, col:8, rhReq:false, ratio:   0.28  },
   "P1":  {row:2, col:9, rhReq:false, ratio:   0.21  },
 };
+
+const rhSelectItems = [
+  {label: 'Positive', value:  1},
+  {label: 'Negative', value: -1},
+];
 
 function rhesusSpecificRatioNeeded(antigenSelections) {
   for (let antigName in antigenStats) {
@@ -53,105 +71,76 @@ function computeAntigenStatistic(antigenSelections, rhesusFactor, multiplier) {
   return "Units to screen: " + (multiplier / result).toFixed(2);
 }
 
-class AntigenToggle extends React.Component {
-  render() {
-    const gridStyle = {
-      gridColumn: this.props.col,
-      gridRow: this.props.row,
-      backgroundColor: this.props.enabled ? "orange" : "white",
-      fontWeight: this.props.enabled ? "bold" : "normal",
-    };
-    return (
-      <button className="antToggle" style={gridStyle} onClick={this.props.onClick}>
-        {this.props.antigenName}
-      </button>
-    );
-  }
+function AntigenToggle(props) {
+  const gridStyle = {
+    width: "3em",
+  };
+  return (
+    <ToggleButton
+      className="p-m-1 p-col-fixed"
+      style={gridStyle}
+      offLabel={props.antigenName}
+      onLabel={props.antigenName}
+      checked={props.enabled}
+      onChange={props.onClick}
+    />
+  );
 }
 
-class ToggleField extends React.Component {
-  render() {
-    return (
-      <div className="toggle-field">
-        {
-          Object.keys(antigenStats).map((item, i) => (
-            <AntigenToggle
-              key={item}
-              antigenName={item}
-              row={antigenStats[item].row}
-              col={antigenStats[item].col}
-              enabled={this.props.toggles[item]}
-              onClick={() => this.props.onClick(item)}/>
-          ))
-        }
-      </div>
-    );
-  }
+function ToggleField(props) {
+  return (
+    <Panel className="p-m-2 p-shadow-4" header="Antigen Selection">
+      {
+        Object.keys(antigenStats).map((item, i) => (
+          <AntigenToggle
+            key={item}
+            antigenName={item}
+            row={antigenStats[item].row}
+            col={antigenStats[item].col}
+            enabled={props.toggles[item]}
+            onClick={() => props.onClick(item)}/>
+        ))
+      }
+    </Panel>
+  );
 }
 
-class RhesusSelector extends React.Component {
-  render() {
-    var labelStyle = {
-      gridColumn: 1,
-      gridRow: 0,
-    };
-    var posStyle = {
-      backgroundColor: this.props.rhNeeded ? (this.props.rhFac > 0 ? "lime" : "white") : "lightgray",
-      gridColumn: 2,
-      gridRow: 0,
-      fontWeight: this.props.rhFac > 0 ? "bold" : "normal",
-    };
-    var negStyle = {
-      backgroundColor: this.props.rhNeeded ? (this.props.rhFac < 0 ? "lime" : "white") : "lightgray",
-      gridColumn: 3,
-      gridRow: 0,
-      fontWeight: this.props.rhFac < 0 ? "bold" : "normal",
-    };
-    return (
-      <div className="rh-selector">
-        <div style={labelStyle}>Rhesus Factor</div>
-        <button
-          className="antToggle"
-          style={posStyle}
-          disabled={!this.props.rhNeeded}
-          onClick={() => this.props.onClick( 1)}
-        >Positive</button>
-        <button
-          className="antToggle"
-          style={negStyle}
-          disabled={!this.props.rhNeeded}
-          onClick={() => this.props.onClick(-1)}
-        >Negative</button>
-      </div>
-    );
-  }
+function RhesusSelector(props) {
+  return (
+    <Panel className="p-m-2 p-shadow-4" header="Rhesus Factor">
+      <SelectButton
+        value={props.rhFac}
+        options={rhSelectItems}
+        disabled={!props.rhNeeded}
+        onChange={(ev) => props.onClick(ev.value)}
+      ></SelectButton>
+    </Panel>
+  );
 }
 
-class UnitMultiplier extends React.Component {
-  render() {
-    return (
-      <div className="unit-multi">
-        <div className="multi-label">Desired units</div>
-        <input
-          type="number"
-          min="1"
-          className="multi-input"
-          value={this.props.nbUnitsDesired}
-          onChange={this.props.onChange}
-        />
-      </div>
-    );
-  }
+function UnitMultiplier(props) {
+  return (
+    <Panel className="p-m-2 p-shadow-4" header="Desired units">
+      <InputNumber
+        value={props.nbUnitsDesired}
+        onValueChange={props.onChange}
+        className="multi-input"
+        min={1}
+        showButtons
+        buttonLayout="horizontal"
+        decrementButtonClassName="p-button-danger"
+        incrementButtonClassName="p-button-success"
+        incrementButtonIcon="pi pi-plus"
+        decrementButtonIcon="pi pi-minus" 
+      />
+    </Panel>
+  );
 }
 
-class OutputZone extends React.Component {
-  render() {
-    return (
-      <div className="output-zone">
-        {this.props.outputText}
-      </div>
-    );
-  }
+function OutputZone(props) {
+  return (
+    <Card className="p-m-2 p-shadow-4">{props.outputText}</Card>
+  );
 }
 
 class Calculator extends React.Component {
@@ -218,22 +207,27 @@ class Calculator extends React.Component {
   render() {
     return (
       <div className="App">
+        <div className="App-header">
+          <h1>RCcompat5 (React Version)</h1>
+        </div>
         <ToggleField
           toggles={this.state.antigenSet}
           onClick={(antig) => this.handleAntigenSelect(antig)}
         />
-        <RhesusSelector
-          rhFac={this.state.rhesusFac}
-          rhNeeded={this.state.rhesusReq}
-          onClick={(fac) => this.handleRhChange(fac)}
+        <div className="extra-params">
+          <RhesusSelector
+            rhFac={this.state.rhesusFac}
+            rhNeeded={this.state.rhesusReq}
+            onClick={(fac) => this.handleRhChange(fac)}
+          />
+          <UnitMultiplier
+            nbUnitsDesired={this.state.desiredUnits}
+            onChange={(event) => this.handleMultiplierChange(event)}
+          />
+        </div>
+        <OutputZone
+          outputText={this.state.resultOutput}
         />
-        <UnitMultiplier
-          nbUnitsDesired={this.state.desiredUnits}
-          onChange={(event) => this.handleMultiplierChange(event)}
-        />
-      <OutputZone
-        outputText={this.state.resultOutput}
-      />
       </div>
     );
   }
